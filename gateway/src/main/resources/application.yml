@@ -1,0 +1,34 @@
+micronaut:
+  application:
+    name: micronaut-gateway
+  server:
+    host: localhost
+    port: 8978
+  session:
+    http:
+      redis:
+        enabled: true
+
+datasources:
+  default:
+    url: jdbc:mysql://localhost:3316/frameset?useUnicode=true&characterEncoding=UTF-8&rewriteBatchedStatements=true
+    username: root
+    password: root
+    driverClassName: com.mysql.jdbc.Driver
+
+
+project:
+  logger:
+    level: INFO
+    home: ./logs
+  queryConfig: classpath:queryConfig
+
+redis:
+  uri: redis://localhost:6379
+
+consul:
+  client:
+    registration:
+      enabled: true
+    defaultZone: 172.16.102.129:8500
+

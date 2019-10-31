@@ -1,0 +1,18 @@
+
+datasources:
+  default:
+    url: jdbc:mysql://localhost:3316/frameset?useUnicode=true&characterEncoding=UTF-8&rewriteBatchedStatements=true
+    username: root
+    password: root
+    driverClassName: com.mysql.jdbc.Driver
+
+project:
+  db:
+    test1:
+      url: jdbc:mysql://localhost:3316/frameset?useUnicode=true&characterEncoding=UTF-8&rewriteBatchedStatements=true
+        username: root
+        password: root
+        driverClassName: com.mysql.jdbc.Driver
+  logger:
+    level: INFO
+    home: ./logs
