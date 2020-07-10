@@ -11,12 +11,12 @@ micronaut:
 
 datasources:
   default:
-    url: jdbc:mysql://localhost:3316/frameset?useUnicode=true&characterEncoding=UTF-8&rewriteBatchedStatements=true
+    url: jdbc:mysql://localhost:3306/frameset?useUnicode=true&characterEncoding=UTF-8&rewriteBatchedStatements=true
     username: root
     password: root
     driverClassName: com.mysql.jdbc.Driver
   source1:
-    url: jdbc:mysql://localhost:3316/test?useUnicode=true&characterEncoding=UTF-8&rewriteBatchedStatements=true
+    url: jdbc:mysql://localhost:3306/test?useUnicode=true&characterEncoding=UTF-8&rewriteBatchedStatements=true
     username: root
     password: root
     driverClassName: com.mysql.jdbc.Driver
@@ -34,5 +34,5 @@ consul:
   client:
     registration:
       enabled: true
-    defaultZone: 172.16.102.129:8500
+    defaultZone: 127.0.0.1:8500
 

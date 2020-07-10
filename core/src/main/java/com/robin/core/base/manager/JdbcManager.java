@@ -7,15 +7,17 @@ import com.robin.core.base.exception.ServiceException;
 import com.robin.core.base.model.BaseObject;
 import com.robin.core.base.service.IBaseAnnotationJdbcService;
 import com.robin.core.query.util.PageQuery;
+import com.robin.core.sql.util.FilterCondition;
+import com.robin.core.sql.util.FilterConditions;
 import io.micronaut.context.ApplicationContext;
 import io.micronaut.inject.qualifiers.Qualifiers;
-import io.micronaut.spring.tx.annotation.Transactional;
+import io.micronaut.transaction.annotation.ReadOnly;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.transaction.annotation.Propagation;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -23,7 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class  JdbcManager<V extends BaseObject,P extends Serializable> implements IBaseAnnotationJdbcService<V,P> {
+public abstract class  JdbcManager<V extends BaseObject,P extends Serializable> implements IBaseAnnotationJdbcService<V,P> {
     protected JdbcRepository jdbcRepository;
     protected Class<V> type;
     protected Logger logger= LoggerFactory.getLogger(getClass());
@@ -58,7 +60,7 @@ public class  JdbcManager<V extends BaseObject,P extends Serializable> implement
 
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED,rollbackFor = ServiceException.class)
+    @Transactional
     public P saveEntity(V v) throws ServiceException {
         try {
             return (P)jdbcRepository.createVO(v);
@@ -68,7 +70,7 @@ public class  JdbcManager<V extends BaseObject,P extends Serializable> implement
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED,rollbackFor = ServiceException.class)
+    @Transactional
     public int updateEntity(V v) throws ServiceException {
         try {
             return jdbcRepository.updateVO(type,v);
@@ -78,7 +80,7 @@ public class  JdbcManager<V extends BaseObject,P extends Serializable> implement
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED,rollbackFor = ServiceException.class)
+    @Transactional
     public int deleteEntity(P[] ps) throws ServiceException {
         try {
             return jdbcRepository.deleteVO(type,ps);
@@ -88,7 +90,7 @@ public class  JdbcManager<V extends BaseObject,P extends Serializable> implement
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED,rollbackFor = ServiceException.class)
+    @Transactional
     public int deleteByField(String s, Object o) throws ServiceException {
         try {
             return jdbcRepository.deleteByField(type,s,o);
@@ -98,7 +100,7 @@ public class  JdbcManager<V extends BaseObject,P extends Serializable> implement
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @ReadOnly
     public V getEntity(P p) throws ServiceException {
         try {
             return (V)jdbcRepository.getEntity(type,p);
@@ -108,7 +110,7 @@ public class  JdbcManager<V extends BaseObject,P extends Serializable> implement
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @ReadOnly
     public void queryBySelectId(PageQuery pageQuery) throws ServiceException {
         try{
             jdbcRepository.queryBySelectId(pageQuery);
@@ -118,7 +120,7 @@ public class  JdbcManager<V extends BaseObject,P extends Serializable> implement
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @ReadOnly
     public List<Map<String, Object>> queryByPageSql(String sql, PageQuery pageQuery) throws ServiceException {
         try{
             return jdbcRepository.queryByPageSql(sql, pageQuery);
@@ -128,7 +130,7 @@ public class  JdbcManager<V extends BaseObject,P extends Serializable> implement
     }
 
     @Override
-    @Transactional(propagation=Propagation.REQUIRED,rollbackFor=RuntimeException.class)
+    @Transactional
     public void executeBySelectId(PageQuery pageQuery) throws ServiceException {
         try{
             jdbcRepository.executeBySelectId(pageQuery);
@@ -138,7 +140,7 @@ public class  JdbcManager<V extends BaseObject,P extends Serializable> implement
     }
 
     @Override
-    @Transactional(readOnly=true)
+    @ReadOnly
     public List<Map<String, Object>> queryBySql(String sqlstr) throws ServiceException {
         try{
             return jdbcRepository.queryBySql(sqlstr);
@@ -148,7 +150,7 @@ public class  JdbcManager<V extends BaseObject,P extends Serializable> implement
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @ReadOnly
     public PageQuery queryBySql(String querySQL, String countSql, String[] displayname, PageQuery pageQuery) throws ServiceException {
         try{
             return jdbcRepository.queryBySql(querySQL, countSql, displayname, pageQuery);
@@ -158,7 +160,7 @@ public class  JdbcManager<V extends BaseObject,P extends Serializable> implement
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @ReadOnly
     public List<Map<String, Object>> queryBySql(String sqlstr, Object[] objects) throws ServiceException {
         try{
             return jdbcRepository.queryBySql(sqlstr, objects);
@@ -168,7 +170,7 @@ public class  JdbcManager<V extends BaseObject,P extends Serializable> implement
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @ReadOnly
     public int queryByInt(String querySQL) throws ServiceException {
         try{
             return jdbcRepository.queryByInt(querySQL);
@@ -178,7 +180,7 @@ public class  JdbcManager<V extends BaseObject,P extends Serializable> implement
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @ReadOnly
     public List<V> queryByField(String fieldName, String oper, Object... fieldValues) throws ServiceException {
         List<V> retlist;
         try{
@@ -193,7 +195,7 @@ public class  JdbcManager<V extends BaseObject,P extends Serializable> implement
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @ReadOnly
     public List<V> queryByFieldOrderBy(String orderByStr, String fieldName, String oper, Object... fieldValues) throws ServiceException {
         List<V> retlist;
         try{
@@ -208,7 +210,7 @@ public class  JdbcManager<V extends BaseObject,P extends Serializable> implement
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @ReadOnly
     public List<V> queryAll() throws ServiceException {
         List<V> retlist;
         try{
@@ -220,7 +222,7 @@ public class  JdbcManager<V extends BaseObject,P extends Serializable> implement
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @ReadOnly
     public List<V> queryByVO(V vo, Map<String, Object> additonMap, String orderByStr) throws ServiceException {
         List<V> retlist;
         try {
@@ -229,6 +231,18 @@ public class  JdbcManager<V extends BaseObject,P extends Serializable> implement
             throw new ServiceException(ex);
         }
         return retlist;
+    }
+
+    @Override
+    @ReadOnly
+    public List<V> queryByCondition(List<FilterCondition> list, String s) {
+        return (List<V>)jdbcRepository.queryByCondition(type,list,s);
+    }
+
+    @Override
+    @ReadOnly
+    public List<V> queryByCondition(FilterConditions filterConditions, String s) {
+        return (List<V>)jdbcRepository.queryByCondition(type,filterConditions.getConditions(),s);
     }
 
     public JdbcRepository getJdbcRepository() {
