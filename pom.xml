@@ -27,7 +27,7 @@
         <spring.version>5.1.2.RELEASE</spring.version>
         <lang3.version>3.2.1</lang3.version>
         <mysql.version>5.1.38</mysql.version>
-        <dom4j.version>2.1.1</dom4j.version>
+        <dom4j.version>2.1.3</dom4j.version>
     </properties>
     <dependencyManagement>
         <dependencies>
