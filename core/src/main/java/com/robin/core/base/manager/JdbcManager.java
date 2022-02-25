@@ -1,7 +1,7 @@
 package com.robin.core.base.manager;
 
 import com.robin.core.base.dao.JdbcRepository;
-import com.robin.core.base.dao.util.AnnotationRetrevior;
+import com.robin.core.base.dao.util.AnnotationRetriever;
 import com.robin.core.base.exception.DAOException;
 import com.robin.core.base.exception.ServiceException;
 import com.robin.core.base.model.BaseObject;
@@ -29,7 +29,7 @@ public abstract class  JdbcManager<V extends BaseObject,P extends Serializable> 
     protected JdbcRepository jdbcRepository;
     protected Class<V> type;
     protected Logger logger= LoggerFactory.getLogger(getClass());
-    protected AnnotationRetrevior.EntityContent entityContent;
+    protected AnnotationRetriever.EntityContent entityContent;
 
     @Inject
     private ApplicationContext applicationContext;
@@ -45,7 +45,7 @@ public abstract class  JdbcManager<V extends BaseObject,P extends Serializable> 
         }
         type = (Class) parametrizedType.getActualTypeArguments()[0];
         if(type!=null){
-            entityContent= AnnotationRetrevior.getMappingTableByCache(type);
+            entityContent= AnnotationRetriever.getMappingTableByCache(type);
         }
     }
     @PostConstruct
@@ -63,7 +63,7 @@ public abstract class  JdbcManager<V extends BaseObject,P extends Serializable> 
     @Transactional
     public P saveEntity(V v) throws ServiceException {
         try {
-            return (P)jdbcRepository.createVO(v);
+            return (P)jdbcRepository.createVO(v,type);
         }catch (DAOException ex){
             throw new ServiceException(ex);
         }
@@ -141,9 +141,9 @@ public abstract class  JdbcManager<V extends BaseObject,P extends Serializable> 
 
     @Override
     @ReadOnly
-    public List<Map<String, Object>> queryBySql(String sqlstr) throws ServiceException {
+    public List<Map<String, Object>> queryBySql(String sqlstr,Object... objs) throws ServiceException {
         try{
-            return jdbcRepository.queryBySql(sqlstr);
+            return jdbcRepository.queryBySql(sqlstr,objs);
         }catch(DAOException ex){
             throw new ServiceException(ex);
         }
@@ -159,21 +159,13 @@ public abstract class  JdbcManager<V extends BaseObject,P extends Serializable> 
         }
     }
 
-    @Override
-    @ReadOnly
-    public List<Map<String, Object>> queryBySql(String sqlstr, Object[] objects) throws ServiceException {
-        try{
-            return jdbcRepository.queryBySql(sqlstr, objects);
-        }catch(DAOException ex){
-            throw new ServiceException(ex);
-        }
-    }
+
 
     @Override
     @ReadOnly
-    public int queryByInt(String querySQL) throws ServiceException {
+    public int queryByInt(String querySQL,Object... objects) throws ServiceException {
         try{
-            return jdbcRepository.queryByInt(querySQL);
+            return jdbcRepository.queryByInt(querySQL,objects);
         }catch(DAOException ex){
             throw new ServiceException(ex);
         }
@@ -184,7 +176,7 @@ public abstract class  JdbcManager<V extends BaseObject,P extends Serializable> 
     public List<V> queryByField(String fieldName, String oper, Object... fieldValues) throws ServiceException {
         List<V> retlist;
         try{
-            retlist=(List<V>) jdbcRepository.queryByField(type, fieldName, oper, fieldValues);
+            retlist=jdbcRepository.queryByField(type, fieldName, oper, fieldValues);
         }
         catch(DAOException ex){
             throw new ServiceException(ex);
@@ -199,7 +191,7 @@ public abstract class  JdbcManager<V extends BaseObject,P extends Serializable> 
     public List<V> queryByFieldOrderBy(String orderByStr, String fieldName, String oper, Object... fieldValues) throws ServiceException {
         List<V> retlist;
         try{
-            retlist=(List<V>) jdbcRepository.queryByFieldOrderBy(type, orderByStr, fieldName, oper, fieldValues);
+            retlist= jdbcRepository.queryByFieldOrderBy(type, orderByStr, fieldName, oper, fieldValues);
         }
         catch(DAOException ex){
             throw new ServiceException(ex);
@@ -214,7 +206,7 @@ public abstract class  JdbcManager<V extends BaseObject,P extends Serializable> 
     public List<V> queryAll() throws ServiceException {
         List<V> retlist;
         try{
-            retlist=(List<V>)jdbcRepository.queryAll(type);
+            retlist=jdbcRepository.queryAll(type);
         }catch (Exception e) {
             throw new ServiceException(e);
         }
@@ -226,7 +218,7 @@ public abstract class  JdbcManager<V extends BaseObject,P extends Serializable> 
     public List<V> queryByVO(V vo, Map<String, Object> additonMap, String orderByStr) throws ServiceException {
         List<V> retlist;
         try {
-            retlist=(List<V>) jdbcRepository.queryByVO(type, vo, additonMap, orderByStr);
+            retlist= jdbcRepository.queryByVO(type, vo, additonMap, orderByStr);
         } catch (DAOException ex) {
             throw new ServiceException(ex);
         }
@@ -235,14 +227,21 @@ public abstract class  JdbcManager<V extends BaseObject,P extends Serializable> 
 
     @Override
     @ReadOnly
-    public List<V> queryByCondition(List<FilterCondition> list, String s) {
-        return (List<V>)jdbcRepository.queryByCondition(type,list,s);
+    public List<V> queryByCondition(List<FilterCondition> list, PageQuery s) {
+        return jdbcRepository.queryByCondition(type,list,s);
     }
 
     @Override
     @ReadOnly
-    public List<V> queryByCondition(FilterConditions filterConditions, String s) {
-        return (List<V>)jdbcRepository.queryByCondition(type,filterConditions.getConditions(),s);
+    public List<V> queryByCondition(FilterConditions filterConditions, PageQuery s) {
+        return jdbcRepository.queryByCondition(type,filterConditions.getConditions(),s);
+    }
+    @Override
+    @ReadOnly
+    public List<V> queryByCondition(List<FilterCondition> list){
+        PageQuery pageQuery=new PageQuery();
+        pageQuery.setPageSize(0);
+        return jdbcRepository.queryByCondition(type,list,pageQuery);
     }
 
     public JdbcRepository getJdbcRepository() {

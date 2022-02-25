@@ -16,7 +16,7 @@
 package com.robin.msf.contorller.system;
 
 
-import com.robin.core.web.controller.BaseController;
+import com.robin.core.web.controller.AbstractController;
 import com.robin.core.web.util.Session;
 import com.robin.msf.manager.system.LoginService;
 import io.micronaut.http.HttpRequest;
@@ -29,7 +29,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Controller
-public class LoginController extends BaseController {
+public class LoginController extends AbstractController {
     @Inject
     private LoginService loginService;
 

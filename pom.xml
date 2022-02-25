@@ -26,7 +26,7 @@
         <micronaut.version>2.0.0</micronaut.version>
         <spring.version>5.1.2.RELEASE</spring.version>
         <lang3.version>3.2.1</lang3.version>
-        <mysql.version>5.1.22</mysql.version>
+        <mysql.version>5.1.38</mysql.version>
         <dom4j.version>2.1.1</dom4j.version>
     </properties>
     <dependencyManagement>
@@ -114,12 +114,6 @@
                 <groupId>org.yaml</groupId>
                 <artifactId>snakeyaml</artifactId>
                 <version>1.23</version>
-            </dependency>
-          
-            <dependency>
-                <groupId>mysql</groupId>
-                <artifactId>mysql-connector-java</artifactId>
-                <version>5.1.38</version>
             </dependency>
 
 
@@ -218,7 +212,6 @@
     <build>
         <sourceDirectory>src/main/java</sourceDirectory>
         <plugins>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>

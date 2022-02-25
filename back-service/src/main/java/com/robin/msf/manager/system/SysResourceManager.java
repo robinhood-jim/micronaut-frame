@@ -24,7 +24,7 @@ public class SysResourceManager extends JdbcManager<SysResource,Long> {
                 vo.setResId(Integer.valueOf(addId));
                 vo.setAssignType(SysResourceUser.ASSIGN_ADD);
                 vo.setStatus("1");
-                this.getJdbcRepository().createVO(vo);
+                this.getJdbcRepository().createVO(vo,type);
             }
         }
         //Delete Right
@@ -35,7 +35,7 @@ public class SysResourceManager extends JdbcManager<SysResource,Long> {
                 vo.setResId(new Integer(delId));
                 vo.setAssignType(SysResourceUser.ASSIGN_DEL);
                 vo.setStatus("1");
-                this.getJdbcRepository().createVO(vo);
+                this.getJdbcRepository().createVO(vo,type);
             }
         }
 

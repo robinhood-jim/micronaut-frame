@@ -23,6 +23,9 @@ project:
     home: ./logs
   queryConfig: classpath:queryConfig
 
+http:
+  ignoreUrls: 
+
 redis:
   uri: redis://localhost:6379
 

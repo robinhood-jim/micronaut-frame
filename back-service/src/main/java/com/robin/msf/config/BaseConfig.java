@@ -48,7 +48,7 @@ public class BaseConfig {
     @Bean
     @Named("sqlGen")
     public BaseSqlGen getSqlGen(){
-        return new MysqlSqlGen();
+        return MysqlSqlGen.getInstance();
     }
     @Singleton
     @Bean
