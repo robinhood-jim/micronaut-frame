@@ -170,7 +170,7 @@ public class BaseCrudController<O extends BaseObject, P extends Serializable, S 
         HttpParameters parameters = request.getParameters();
         Iterator<Map.Entry<String, List<String>>> iter = parameters.asMap().entrySet().iterator();
         Map<String, Object> tmpmap = new HashMap();
-        Map<String, Method> methodMap = ReflectUtils.getAllSetMethod(query);
+        Map<String, Method> methodMap = ReflectUtils.getAllSetMethod(query.getClass());
         try {
             while (iter.hasNext()) {
                 Map.Entry<String, List<String>> entry = iter.next();

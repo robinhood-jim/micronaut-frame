@@ -13,4 +13,5 @@ import javax.inject.Singleton;
  */
 @Singleton
 public class SysUserManager extends JdbcManager<SysUser,Long> {
+
 }

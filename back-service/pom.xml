@@ -5,6 +5,7 @@
         <groupId>com.robin.mircoservice</groupId>
         <artifactId>micronaut</artifactId>
         <version>1.0-SNAPSHOT</version>
+
     </parent>
 
     <groupId>com.robin.mircoservice.micronaut</groupId>
@@ -12,8 +13,10 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     <properties>
-        <micronaut.version>1.2.4</micronaut.version>
+        <mybatisplus.version>3.4.3</mybatisplus.version>
     </properties>
+
+
 
     <name>back-service</name>
 
@@ -92,7 +95,7 @@
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>io.micronaut</groupId>
+            <groupId>io.micronaut.spring</groupId>
             <artifactId>micronaut-spring</artifactId>
             <exclusions>
                 <exclusion>
@@ -123,6 +126,26 @@
         <dependency>
             <groupId>io.micronaut</groupId>
             <artifactId>micronaut-discovery-client</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.micronaut.security</groupId>
+            <artifactId>micronaut-security-annotations</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.micronaut.security</groupId>
+            <artifactId>micronaut-security-jwt</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-core</artifactId>
+            <version>${mybatisplus.version}</version>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-extension</artifactId>
+            <version>${mybatisplus.version}</version>
+            <optional>true</optional>
         </dependency>
 
     </dependencies>
