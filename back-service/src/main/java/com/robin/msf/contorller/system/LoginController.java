@@ -39,7 +39,7 @@ public class LoginController extends AbstractController {
         Map<String, Object> map = new HashMap();
         try {
             Session session = this.loginService.doLogin(queryParam.getAccountName(), queryParam.getPassword().toUpperCase());
-            wrapSuccess(map);
+            wrapSuccessMap(map,"");
             map.put("session", session);
         } catch (Exception ex) {
             wrapFailed(map, ex);
@@ -62,7 +62,7 @@ public class LoginController extends AbstractController {
             }
             loginService.getRights(session);
             retMap.put("session",session);
-            wrapSuccess(retMap);
+            wrapSuccessMap(retMap,"OK");
         } catch (Exception ex) {
             wrapFailed(retMap, ex);
         }

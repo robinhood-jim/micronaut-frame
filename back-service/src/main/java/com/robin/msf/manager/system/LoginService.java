@@ -79,7 +79,7 @@ public class LoginService {
             throw new ServiceException("AccountName or password incorrect or Account is locked!Please retry");
         }
         SysUser queryUser = users.get(0);
-        List<SysUserResponsiblity> respList=sysUserResponsiblityService.queryByField("userId", BaseObject.OPER_EQ,queryUser.getId());
+        List<SysUserResponsiblity> respList=sysUserResponsiblityService.queryByField("userId", Const.OPERATOR.EQ,queryUser.getId());
         retMap.put("accountName",queryUser.getUserAccount());
         retMap.put("userName",queryUser.getUserName());
         retMap.put("accountType",queryUser.getAccountType());

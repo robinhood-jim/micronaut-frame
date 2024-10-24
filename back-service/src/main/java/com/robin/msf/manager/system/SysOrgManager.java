@@ -17,6 +17,7 @@ package com.robin.msf.manager.system;
 
 import com.robin.core.base.manager.JdbcManager;
 import com.robin.core.base.model.BaseObject;
+import com.robin.core.base.util.Const;
 import com.robin.msf.model.system.SysOrg;
 
 
@@ -28,7 +29,7 @@ public class SysOrgManager extends JdbcManager<SysOrg, Long> {
     public String getSubIdByParentOrgId(Long orgId){
         SysOrg sysOrg=getEntity(orgId);
         String orgCode=sysOrg.getTreeCode();
-        List<SysOrg> list1=queryByField("treeCode", BaseObject.OPER_LEFT_LK,orgCode+"%");
+        List<SysOrg> list1=queryByField("treeCode", Const.OPERATOR.LLIKE,orgCode+"%");
         StringBuilder builder=new StringBuilder();
         if(!list1.isEmpty()){
             for(SysOrg org:list1) {

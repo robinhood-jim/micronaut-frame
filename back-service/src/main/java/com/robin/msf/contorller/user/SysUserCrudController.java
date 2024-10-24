@@ -60,7 +60,7 @@ public class SysUserCrudController extends BaseCrudController<SysUser, Long, Sys
         query.getParameters().put("queryCondition", wrapQuery(request, orgIds));
         doQuery(request,query);
 
-        List<SysOrg> orgList = sysOrgService.queryByField("orgStatus", BaseObject.OPER_EQ, Const.VALID);
+        List<SysOrg> orgList = sysOrgService.queryByField("orgStatus", Const.OPERATOR.EQ, Const.VALID);
         setCode("ORG", orgList, "orgName", "id");
         setCode("ACCOUNTTYPE");
         filterListByCodeSet(query, "accountType", "ACCOUNTTYPE", null);
@@ -76,7 +76,7 @@ public class SysUserCrudController extends BaseCrudController<SysUser, Long, Sys
     @Post("/save")
     public Map<String, Object> saveUser(@Body  SysUser user) {
         //check userAccount unique
-        List<SysUser> list = this.service.queryByField("userAccount", BaseObject.OPER_EQ, user.getUserAccount());
+        List<SysUser> list = this.service.queryByField("userAccount", Const.OPERATOR.EQ, user.getUserAccount());
         if (!list.isEmpty()) {
             return wrapError(new WebException("user exists"));
         } else {
@@ -88,7 +88,7 @@ public class SysUserCrudController extends BaseCrudController<SysUser, Long, Sys
     public Map<String, Object> updateUser(@Body SysUser user) {
         Long id = user.getId();
         //check userAccount unique
-        List<SysUser> list = this.service.queryByField("userAccount", BaseObject.OPER_EQ, user.getUserAccount());
+        List<SysUser> list = this.service.queryByField("userAccount", Const.OPERATOR.EQ, user.getUserAccount());
         if ((list.size() == 1 && id.equals(list.get(0).getId())) || list.isEmpty()) {
             return doUpdate(user,user.getId());
         } else {
@@ -199,7 +199,7 @@ public class SysUserCrudController extends BaseCrudController<SysUser, Long, Sys
             for (Map<String, Object> map : list) {
                 resIdList.add(new Long(map.get("id").toString()));
             }
-            List<SysResource> resList = sysResourceService.queryByField("status", BaseObject.OPER_EQ, "1");
+            List<SysResource> resList = sysResourceService.queryByField("status", Const.OPERATOR.EQ, "1");
             //正向方向赋权
             List<Map<String, Object>> userRightList = service.queryBySql("select res_id as resId,assign_type as type from t_sys_resource_user_r where user_id=? and status=?", new Object[]{Long.valueOf(userId), "1"});
             Map<String, List<Map<String, Object>>> typeMap = CollectionBaseConvert.convertToMapByParentKeyWithObjVal(userRightList, "type");
