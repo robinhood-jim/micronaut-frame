@@ -33,5 +33,5 @@ consul:
   client:
     registration:
       enabled: true
-    defaultZone: 172.16.102.129:8500
+    defaultZone: 127.0.0.1:8500
 

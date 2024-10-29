@@ -17,11 +17,12 @@ import com.robin.core.web.international.Translator;
 import io.micronaut.context.ApplicationContext;
 import io.micronaut.http.HttpParameters;
 import io.micronaut.http.HttpRequest;
+import jakarta.inject.Named;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.beanutils.PropertyUtils;
 
 import javax.annotation.PostConstruct;
-import javax.inject.Named;
+
 import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
@@ -61,7 +62,7 @@ public class BaseCrudController<O extends BaseObject, P extends Serializable, S 
         }
     }
     @PostConstruct
-    public void init(@Named  ApplicationContext context){
+    public void init(@Named ApplicationContext context){
         this.service=context.getBean(serviceType);
     }
     protected Map<String,Object> doSave(O object){

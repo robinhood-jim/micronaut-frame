@@ -16,12 +16,11 @@
 package com.robin.msf.manager.system;
 
 import com.robin.core.base.manager.JdbcManager;
-import com.robin.core.base.model.BaseObject;
 import com.robin.core.base.util.Const;
 import com.robin.msf.model.system.SysOrg;
+import jakarta.inject.Singleton;
 
 
-import javax.inject.Singleton;
 import java.util.List;
 
 @Singleton

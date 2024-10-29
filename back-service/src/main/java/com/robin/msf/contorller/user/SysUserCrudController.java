@@ -31,14 +31,17 @@ import com.robin.msf.model.system.SysResource;
 import com.robin.msf.model.user.SysUser;
 import io.micronaut.http.HttpRequest;
 import io.micronaut.http.annotation.*;
+import io.micronaut.security.annotation.Secured;
+import io.micronaut.security.rules.SecurityRule;
+import jakarta.inject.Inject;
 
-import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Controller("/system/user")
+@Secured(SecurityRule.IS_ANONYMOUS)
 public class SysUserCrudController extends BaseCrudController<SysUser, Long, SysUserManager> {
     @Inject
     private SysOrgManager sysOrgService;
@@ -98,12 +101,12 @@ public class SysUserCrudController extends BaseCrudController<SysUser, Long, Sys
 
 
     @Get("/listorg/{userId}")
-    public Map<String, Object> listUserOrg(HttpRequest<?> request, @PathVariable Long userId) {
+    public Map<String, Object> listUserOrg(@PathVariable Long userId) {
         Map<String, Object> retMap = new HashMap<>();
         PageQuery query = new PageQuery();
         query.setPageSize(0);
         query.setSelectParamId("GETUSER_ORG");
-        query.setParameterArr(new Object[]{userId});
+        query.addQueryParameter(new Object[]{userId});
         service.queryBySelectId(query);
         retMap.put("options", query.getRecordSet());
         wrapSuccess(retMap);
@@ -192,14 +195,14 @@ public class SysUserCrudController extends BaseCrudController<SysUser, Long, Sys
             } else {
                 query.setSelectParamId("GET_ORGRESOURCEBYRESP");
             }
-            query.setParameterArr(new Object[]{userId});
+            query.addQueryParameter(new Object[]{userId});
             service.queryBySelectId(query);
             List<Map<String, Object>> list = query.getRecordSet();
 
             for (Map<String, Object> map : list) {
                 resIdList.add(new Long(map.get("id").toString()));
             }
-            List<SysResource> resList = sysResourceService.queryByField("status", Const.OPERATOR.EQ, "1");
+            List<SysResource> resList = sysResourceService.queryByField(SysResource::getStatus, Const.OPERATOR.EQ, "1");
             //正向方向赋权
             List<Map<String, Object>> userRightList = service.queryBySql("select res_id as resId,assign_type as type from t_sys_resource_user_r where user_id=? and status=?", new Object[]{Long.valueOf(userId), "1"});
             Map<String, List<Map<String, Object>>> typeMap = CollectionBaseConvert.convertToMapByParentKeyWithObjVal(userRightList, "type");
@@ -283,7 +286,7 @@ public class SysUserCrudController extends BaseCrudController<SysUser, Long, Sys
             } else {
                 query.setSelectParamId("GET_ORGRESOURCEBYRESP");
             }
-            query.setParameterArr(new Object[]{userId});
+            query.addQueryParameter(new Object[]{userId});
             service.queryBySelectId(query);
             List<Map<String, Object>> list = query.getRecordSet();
             List<String> delList = new ArrayList<String>();

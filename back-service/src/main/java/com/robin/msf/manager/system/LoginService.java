@@ -31,14 +31,14 @@ import com.robin.msf.model.user.SysUser;
 import com.robin.msf.model.user.SysUserOrg;
 import com.robin.msf.model.user.SysUserResponsiblity;
 import com.robin.msf.manager.user.SysUserManager;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import jakarta.inject.Singleton;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.cache.annotation.Cacheable;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.inject.Singleton;
 import java.util.*;
 
 @Singleton

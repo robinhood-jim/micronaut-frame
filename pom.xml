@@ -23,7 +23,7 @@
         <logback.version>1.2.3</logback.version>
         <slf4j.version>1.7.8</slf4j.version>
         <frm.version>1.0-SNAPSHOT</frm.version>
-        <micronaut.version>2.0.0</micronaut.version>
+        <micronaut.version>3.8.6</micronaut.version>
         <spring.version>5.1.2.RELEASE</spring.version>
         <lang3.version>3.2.1</lang3.version>
         <mysql.version>5.1.38</mysql.version>
@@ -81,28 +81,6 @@
                 <groupId>com.robin</groupId>
                 <artifactId>web</artifactId>
                 <version>${frm.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.springframework</groupId>
-                        <artifactId>spring-web</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.springframework</groupId>
-                        <artifactId>spring-webmvc</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.apache.struts</groupId>
-                        <artifactId>struts2-core</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>com.robin</groupId>
-                        <artifactId>common</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.slf4j</groupId>
-                        <artifactId>slf4j-log4j12</artifactId>
-                    </exclusion>
-                </exclusions>
             </dependency>
             
             <dependency>

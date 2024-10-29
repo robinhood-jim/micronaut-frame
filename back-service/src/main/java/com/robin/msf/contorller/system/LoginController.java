@@ -21,14 +21,17 @@ import com.robin.core.web.util.Session;
 import com.robin.msf.manager.system.LoginService;
 import io.micronaut.http.HttpRequest;
 import io.micronaut.http.annotation.*;
+import io.micronaut.security.annotation.Secured;
+import io.micronaut.security.rules.SecurityRule;
+import jakarta.inject.Inject;
 import lombok.Data;
 
-import javax.inject.Inject;
 
 import java.util.HashMap;
 import java.util.Map;
 
-@Controller
+@Controller("/sys")
+@Secured(SecurityRule.IS_ANONYMOUS)
 public class LoginController extends AbstractController {
     @Inject
     private LoginService loginService;
