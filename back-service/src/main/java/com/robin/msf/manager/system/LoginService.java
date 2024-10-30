@@ -31,14 +31,14 @@ import com.robin.msf.model.user.SysUser;
 import com.robin.msf.model.user.SysUserOrg;
 import com.robin.msf.model.user.SysUserResponsiblity;
 import com.robin.msf.manager.user.SysUserManager;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import jakarta.inject.Singleton;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.cache.annotation.Cacheable;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.inject.Singleton;
 import java.util.*;
 
 @Singleton
@@ -79,7 +79,7 @@ public class LoginService {
             throw new ServiceException("AccountName or password incorrect or Account is locked!Please retry");
         }
         SysUser queryUser = users.get(0);
-        List<SysUserResponsiblity> respList=sysUserResponsiblityService.queryByField("userId", BaseObject.OPER_EQ,queryUser.getId());
+        List<SysUserResponsiblity> respList=sysUserResponsiblityService.queryByField("userId", Const.OPERATOR.EQ,queryUser.getId());
         retMap.put("accountName",queryUser.getUserAccount());
         retMap.put("userName",queryUser.getUserName());
         retMap.put("accountType",queryUser.getAccountType());

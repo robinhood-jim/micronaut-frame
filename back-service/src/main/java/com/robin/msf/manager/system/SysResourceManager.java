@@ -4,10 +4,11 @@ import com.robin.core.base.manager.JdbcManager;
 import com.robin.core.base.util.Const;
 import com.robin.msf.model.system.SysResource;
 import com.robin.msf.model.user.SysResourceUser;
-import io.micronaut.spring.tx.annotation.Transactional;
-import org.springframework.transaction.annotation.Propagation;
 
-import javax.inject.Singleton;
+import jakarta.inject.Singleton;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 
 

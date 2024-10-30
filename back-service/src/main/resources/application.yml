@@ -4,6 +4,10 @@ micronaut:
   server:
     host: localhost
     port: 8970
+  security:
+    authentication: bearer
+    redirect:
+      enable: false
   session:
     http:
       redis:
@@ -11,12 +15,12 @@ micronaut:
 
 datasources:
   default:
-    url: jdbc:mysql://localhost:3306/frameset?useUnicode=true&characterEncoding=UTF-8&rewriteBatchedStatements=true
+    url: jdbc:mysql://localhost:3316/frameset?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&serverTimezone=GMT%2B8
     username: root
     password: root
     driverClassName: com.mysql.jdbc.Driver
   source1:
-    url: jdbc:mysql://localhost:3306/test?useUnicode=true&characterEncoding=UTF-8&rewriteBatchedStatements=true
+    url: jdbc:mysql://localhost:3316/test?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&serverTimezone=GMT%2B8
     username: root
     password: root
     driverClassName: com.mysql.jdbc.Driver

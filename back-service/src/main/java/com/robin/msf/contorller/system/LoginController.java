@@ -21,14 +21,17 @@ import com.robin.core.web.util.Session;
 import com.robin.msf.manager.system.LoginService;
 import io.micronaut.http.HttpRequest;
 import io.micronaut.http.annotation.*;
+import io.micronaut.security.annotation.Secured;
+import io.micronaut.security.rules.SecurityRule;
+import jakarta.inject.Inject;
 import lombok.Data;
 
-import javax.inject.Inject;
 
 import java.util.HashMap;
 import java.util.Map;
 
-@Controller
+@Controller("/sys")
+@Secured(SecurityRule.IS_ANONYMOUS)
 public class LoginController extends AbstractController {
     @Inject
     private LoginService loginService;
@@ -39,7 +42,7 @@ public class LoginController extends AbstractController {
         Map<String, Object> map = new HashMap();
         try {
             Session session = this.loginService.doLogin(queryParam.getAccountName(), queryParam.getPassword().toUpperCase());
-            wrapSuccess(map);
+            wrapSuccessMap(map,"");
             map.put("session", session);
         } catch (Exception ex) {
             wrapFailed(map, ex);
@@ -62,7 +65,7 @@ public class LoginController extends AbstractController {
             }
             loginService.getRights(session);
             retMap.put("session",session);
-            wrapSuccess(retMap);
+            wrapSuccessMap(retMap,"OK");
         } catch (Exception ex) {
             wrapFailed(retMap, ex);
         }
